@@ -64,7 +64,7 @@ func (c *clientJson) Errorf(format string, args ...interface{}) {
 func (c *clientJson) log(format string, level LogLevel, prefix string, args ...interface{}) {
 	if (level >= c.config.SendLevel) || (level >= c.config.PrintLevel) {
 		c.entries <- &jsonLogEntry{
-			Ts:    time.Now(),
+			Ts:    time.Now().UnixNano(),
 			Line:  fmt.Sprintf(prefix+format, args...),
 			level: level,
 		}
