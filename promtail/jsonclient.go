@@ -64,7 +64,7 @@ func (c *clientJson) Errorf(format string, args ...interface{}) {
 func (c *clientJson) log(format string, level LogLevel, prefix string, args ...interface{}) {
 	if (level >= c.config.SendLevel) || (level >= c.config.PrintLevel) {
 		c.entries <- &jsonLogEntry{
-			Ts:    time.Now().UnixNano(),
+			Ts:    time.Now(),
 			Line:  fmt.Sprintf(prefix+format, args...),
 			level: level,
 		}
@@ -142,6 +142,7 @@ func (c *clientJson) send(entries []*jsonLogEntry) {
 	if resp.StatusCode != 204 {
 		log.Printf("promtail.ClientJson: Unexpected HTTP status code: %d, message: %s\n", resp.StatusCode, body)
 		log.Println(string(jsonMsg))
+		log.Println(entries)
 		return
 	}
 }
