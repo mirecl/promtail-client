@@ -141,6 +141,7 @@ func (c *clientJson) send(entries []*jsonLogEntry) {
 
 	if resp.StatusCode != 204 {
 		log.Printf("promtail.ClientJson: Unexpected HTTP status code: %d, message: %s\n", resp.StatusCode, body)
+		log.Println(string(jsonMsg))
 		return
 	}
 }
