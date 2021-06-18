@@ -9,7 +9,7 @@ import (
 )
 
 type jsonLogEntry struct {
-	Ts    time.Time `json:"ts"`
+	Ts    string `json:"ts"`
 	Line  string    `json:"line"`
 	level LogLevel // not used in JSON
 }
@@ -64,7 +64,7 @@ func (c *clientJson) Errorf(format string, args ...interface{}) {
 func (c *clientJson) log(format string, level LogLevel, prefix string, args ...interface{}) {
 	if (level >= c.config.SendLevel) || (level >= c.config.PrintLevel) {
 		c.entries <- &jsonLogEntry{
-			Ts:    time.Now(),
+			Ts:    time.Now().Format(time.RFC3339Nano),
 			Line:  fmt.Sprintf(prefix+format, args...),
 			level: level,
 		}
